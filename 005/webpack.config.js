@@ -12,13 +12,17 @@ module.exports ={
     },
     output: {//输出
         path: paths.build,//输出地址
-        filename: '[name].js',//输出名字
+        filename: '[name]-[hash].js',//输出名字 name 当前文件名 hash hash值
+    },
+    devServer: {
+        port: '8090',
+        host: '192.168.56.20'
     },
     plugins: [//插件
         new htmlWebpackPlugin({
             title:'app 004',
             //template:paths.app + '/template.html',
-            inject:'head'
+            inject:'body'
              /**
              title: 用来生成页面的 title 元素
              filename: 输出的 HTML 文件名，默认是 index.html, 也可以直接配置带有子目录。
