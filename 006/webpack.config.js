@@ -1,5 +1,6 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
+const extractTextWebpackPlugin = require('extract-text-webpack-plugin');
 
 const paths = {
     app: path.join(__dirname, 'app'),
@@ -17,7 +18,7 @@ module.exports = {
     devServer: {
         port: '8090',
         host: '192.168.56.20',
-        overlay: {
+        overlay: {//浏览器中显示错误信息
             warnings: true,
             errors: true
         }
@@ -26,13 +27,40 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                //enforce: 'per',
                 exclude: /node_modules/,
-                loader: 'eslint-loader',
-                options: {
-                    emitWarning: true,
-                },
-            }
+                use: [{
+                    loader: 'eslint-loader',
+                    options: {
+                        emitWarning: true,
+                    },
+                }],
+            }, {
+                test: /\.css$/,
+                exclude: /node_modules/,
+                use: extractTextWebpackPlugin.extract({
+                    use: {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true,
+                            localIdentName: '[name]-[local]-[hash:base64:5]',
+                            camelCase: true,
+                            /**
+                             root: ‘/‘, //修改css中url指向的根目录, 默认值为/, 对于绝对路径, css-loader默认是不会对它进行处理的
+                             modules: false, //开启css-modules模式, 默认值为flase
+                             localIdentName: ‘[name]-[local]-[hash:base64:5]‘, //设置css-modules模式下local类名的命名
+                             minimize: false, //压缩css代码, 默认false
+                             camelCase: false, //导出以驼峰化命名的类名, 默认false
+                             import: true, //禁止或启用@import, 默认true
+                             url: true, //禁止或启用url, 默认true
+                             sourceMap: false, //禁止或启用sourceMap, 默认false
+                             importLoaders: 0, //在css-loader前应用的loader的数目, 默认为0
+                             alias: {} //起别名, 默认{}
+                             */
+                        }
+                    },
+                    fallback: 'style-loader',
+                }),
+            },
         ],
     },
     plugins: [//插件
@@ -54,6 +82,10 @@ module.exports = {
              chunksSortMode: 允许控制块在添加到页面之前的排序方式，支持的值：'none' | 'default' | {function}-default:'auto'
              excludeChunks: 允许跳过某些块，(比如，跳过单元测试的块)
              **/
+        }),
+        new extractTextWebpackPlugin({
+            filename: '[name]-[hash].css',
+            ignoreOrder: true,
         }),
     ]
 };
