@@ -1,0 +1,30 @@
+{
+  "name": "webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --env development",
+    "build": "webpack --env production",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lintjs": "eslint app/ webpack.*.js --cache "
+  },
+  "keywords": [],
+  "author": "eric",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^0.28.4",
+    "eslint": "^4.1.1",
+    "eslint-config-google": "^0.8.0",
+    "eslint-loader": "^1.8.0",
+    "eslint-plugin-react": "^7.1.0",
+    "extract-text-webpack-plugin": "^2.1.2",
+    "html-webpack-plugin": "^2.29.0",
+    "style-loader": "^0.18.2",
+    "webpack": "^2.x.x",
+    "webpack-dev-server": "^2.5.0"
+  },
+  "dependencies": {
+    "babel": "^6.23.0"
+  }
+}
